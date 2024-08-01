@@ -53,6 +53,10 @@
             "Grpc.AspNetCore": {
               "target": "Package",
               "version": "[2.57.0, )"
+            },
+            "Microsoft.Data.SqlClient": {
+              "target": "Package",
+              "version": "[5.2.1, )"
             }
           },
           "imports": [

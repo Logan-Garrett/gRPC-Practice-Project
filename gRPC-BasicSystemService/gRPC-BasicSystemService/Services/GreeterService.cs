@@ -1,10 +1,13 @@
 using Grpc.Core;
 using gRPC_BasicSystemService;
+using gRPC_BasicSystemService.BLL;
 
 namespace gRPC_BasicSystemService.Services
 {
     public class GreeterService : Greeter.GreeterBase
     {
+        ServiceBLL serviceBLL = new ServiceBLL();
+
         private readonly ILogger<GreeterService> _logger;
         public GreeterService(ILogger<GreeterService> logger)
         {
@@ -15,7 +18,9 @@ namespace gRPC_BasicSystemService.Services
         {
             return Task.FromResult(new HelloReply
             {
-                Message = "Hello " + request.Name
+                // Message = "Hello " + request.Name + " Lets Get This Bread."
+                Message = serviceBLL.GetServiceNames()
+                // Procedure call above to database for theory test.
             });
         }
     }
