@@ -1,0 +1,6 @@
+@Rest_BasicSystemService_HostAddress = http://localhost:5062
+
+GET {{Rest_BasicSystemService_HostAddress}}/REST/
+Accept: application/json
+
+###

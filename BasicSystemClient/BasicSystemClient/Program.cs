@@ -13,7 +13,7 @@ internal class Program
         var gRPCclient = new Greeter.GreeterClient(channel);
 
         Console.WriteLine("gRPC Start: " + DateTime.Now.ToString());
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < 10000; i++)
         {
             var reply = await gRPCclient.SayHelloAsync(
                               new HelloRequest { Name = "BasicSystemClient" });
@@ -33,9 +33,9 @@ internal class Program
         httpClient.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
 
         Console.WriteLine("REST Start: " + DateTime.Now.ToString());
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < 10000; i++)
         {
-            var json = await httpClient.GetStringAsync("https://localhost:7129/REST");
+            var json = await httpClient.GetStringAsync("https://localhost:7237/REST");
 
             // Console.Write(json);
         }
