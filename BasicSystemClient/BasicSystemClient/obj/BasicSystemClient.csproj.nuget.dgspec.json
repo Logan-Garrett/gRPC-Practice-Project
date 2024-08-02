@@ -63,6 +63,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[2.65.0, )"
+            },
+            "Microsoft.Graph": {
+              "target": "Package",
+              "version": "[5.56.0, )"
             }
           },
           "imports": [
