@@ -9,16 +9,22 @@ internal class Program
     private static async Task Main(string[] args)
     {
         // The port number must match the port of the gRPC server.
-        using var channel = GrpcChannel.ForAddress("https://localhost:7128/gRPC");
+        using var channel = GrpcChannel.ForAddress("https://localhost:7128/gRPC", new GrpcChannelOptions
+        {
+            HttpHandler = new SocketsHttpHandler
+            {
+                EnableMultipleHttp2Connections = true,
+            }
+        });
+        // using var channel = GrpcChannel.ForAddress("https://localhost:7128/gRPC");
         var gRPCclient = new Greeter.GreeterClient(channel);
 
         Console.WriteLine("gRPC Start: " + DateTime.Now.ToString());
-        for (int i = 0; i < 10000; i++)
+        Parallel.For(0, 100000, i =>
         {
-            var reply = await gRPCclient.SayHelloAsync(
-                              new HelloRequest { Name = "BasicSystemClient" });
-            // Console.WriteLine("Greeting: " + reply.Message);
-        }
+            // Need Await???
+            var reply = gRPCclient.SayHelloAsync(new HelloRequest { Name = "BasicSystemClient" });
+        });
         Console.WriteLine("gRPC End: " + DateTime.Now.ToString());
         
         // HTTP Rest Setup
@@ -33,14 +39,14 @@ internal class Program
         httpClient.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
 
         Console.WriteLine("REST Start: " + DateTime.Now.ToString());
-        for (int i = 0; i < 10000; i++)
+        Parallel.For(0, 100000, i =>
         {
-            var json = await httpClient.GetStringAsync("https://localhost:7237/REST");
-
-            // Console.Write(json);
-        }
+            // Need Await???
+            var json = httpClient.GetStringAsync("https://localhost:7237/REST");
+        });
         Console.WriteLine("REST End: " + DateTime.Now.ToString());
 
+        // Other 
         Console.WriteLine("Press any key to exit...");
         Console.ReadKey();
     }
